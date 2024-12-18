@@ -1,10 +1,12 @@
-# UHaul
+# U-Haul
 
 [![LICENSE](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ksylvest/uhaul/blob/main/LICENSE)
 [![RubyGems](https://img.shields.io/gem/v/uhaul)](https://rubygems.org/gems/uhaul)
 [![GitHub](https://img.shields.io/badge/github-repo-blue.svg)](https://github.com/ksylvest/uhaul)
 [![Yard](https://img.shields.io/badge/docs-site-blue.svg)](https://uhaul.ksylvest.com)
 [![CircleCI](https://img.shields.io/circleci/build/github/ksylvest/uhaul)](https://circleci.com/gh/ksylvest/uhaul)
+
+A Ruby library for scraping U-Haul’s self-storage facilities and prices. It offers a CLI and API to grab the latest prices on [uhaul.com](https://uhaul.com).
 
 ## Installation
 
