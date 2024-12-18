@@ -22,18 +22,6 @@ module UHaul
     #   @return [Rates]
     attr_accessor :rates
 
-    # @param facility_id [Integer]
-    #
-    # @return [Array<Price>]
-    def self.fetch(facility_id:)
-      url = "https://www.uhaul.com/facility-units/#{facility_id}"
-      data = Crawler.json(url:)['data']
-      return [] if data['error']
-
-      html = data['html']['units']
-      Nokogiri::HTML(html).css(PRICE_SELECTOR).map { |element| parse(element:) }
-    end
-
     # @param id [String]
     # @param dimensions [Dimensions]
     # @param features [Features]
@@ -56,7 +44,7 @@ module UHaul
       "#<#{self.class.name} #{props.join(' ')}>"
     end
 
-    # @return [String] e.g. "123 | 5' × 5' (25 sqft) | $100 (street) / $90 (web)"
+    # @return [String] e.g. "123 | 5' × 5' (25 sqft) | $90"
     def text
       "#{@id} | #{@dimensions.text} | #{@rates.text} | #{@features.text}"
     end
