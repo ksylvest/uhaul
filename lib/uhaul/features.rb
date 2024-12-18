@@ -8,7 +8,7 @@ module UHaul
     # @return [Features]
     def self.parse(text:)
       new(
-        climate_controlled: text.include?('Climate'),
+        climate_controlled: text.include?('Climate') && !text.include?('No Climate'),
         drive_up_access: text.include?('Drive Up'),
         first_floor_access: text.include?('1st Floor')
       )
