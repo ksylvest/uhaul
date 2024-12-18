@@ -6,7 +6,7 @@
 [![Yard](https://img.shields.io/badge/docs-site-blue.svg)](https://uhaul.ksylvest.com)
 [![CircleCI](https://img.shields.io/circleci/build/github/ksylvest/uhaul)](https://circleci.com/gh/ksylvest/uhaul)
 
-A Ruby library for scraping U-Haul’s self-storage facilities and prices. It offers a CLI and API to grab the latest prices on [uhaul.com](https://uhaul.com).
+A Ruby library offering both a CLI and API for scraping [U-Haul](https://www.publicstorage.com/) self-storage facilities and prices.
 
 ## Installation
 

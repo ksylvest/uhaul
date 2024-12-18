@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    uhaul (1.0.4)
+    uhaul (1.0.5)
       http
       json
       nokogiri
