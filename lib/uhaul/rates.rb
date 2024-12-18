@@ -3,7 +3,7 @@
 module UHaul
   # The rates (street + web) for a facility
   class Rates
-    RATE_REGEX = /\$(?<price>[\d\.]+) Per Month/
+    RATE_REGEX = /\$(?<price>[\d\.\,]+) Per Month/
 
     # @attribute [rw] rate
     #   @return [Integer]
@@ -16,7 +16,7 @@ module UHaul
     #
     # @return [Rates]
     def self.parse(text:)
-      price = Float(RATE_REGEX.match(text)[:price])
+      price = Float(RATE_REGEX.match(text)[:price].gsub(',', ''))
 
       new(price:)
     end
