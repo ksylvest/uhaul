@@ -18,8 +18,8 @@ module UHaul
     #
     # @return [Geocode]
     def self.parse(data:)
-      latitude = data[:latitude]
-      longitude = data[:longitude]
+      latitude = Float(data['latitude'])
+      longitude = Float(data['longitude'])
 
       new(latitude:, longitude:)
     end
