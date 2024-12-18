@@ -7,6 +7,8 @@ module UHaul
   class Facility
     class ParseError < StandardError; end
 
+    PRICES_SELECTOR = '#roomTypes > ul:not([id*="VehicleStorage"]) > li'
+
     SITEMAP_URLS = %w[
       https://www.uhaul.com/Locations/Sitemaps/Sitemap-for-Storage-in-AL.ashx
       https://www.uhaul.com/Locations/Sitemaps/Sitemap-for-Storage-in-AK.ashx
@@ -129,7 +131,7 @@ module UHaul
 
       geocode = Geocode.parse(data: data['geo'])
       address = Address.parse(data: data['address'])
-      prices = document.css('#roomTypes > ul > li').map { |element| Price.parse(element:) }.compact
+      prices = document.css(PRICES_SELECTOR).map { |element| Price.parse(element:) }.compact
 
       new(id:, url:, name:, address:, geocode:, prices:)
     end
