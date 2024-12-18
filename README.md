@@ -49,3 +49,7 @@ end
 ```bash
 uhaul crawl
 ```
+
+```bash
+uhaul crawl "https://www.uhaul.com/Locations/Self-Storage-near-Manchester-Township-NJ-08759/925037/"
+```

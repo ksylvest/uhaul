@@ -21,7 +21,7 @@ module UHaul
       command = argv.shift
 
       case command
-      when 'crawl' then crawl
+      when 'crawl' then crawl(*argv)
       else
         warn("unsupported command=#{command.inspect}")
         exit(Code::ERROR)
@@ -30,8 +30,9 @@ module UHaul
 
     private
 
-    def crawl
-      Crawl.run
+    # @param url [String] optional
+    def crawl(url = nil)
+      Crawl.run(url: url)
       exit(Code::OK)
     end
 
@@ -52,6 +53,11 @@ module UHaul
 
         options.on('-h', '--help', 'help') { help(options) }
         options.on('-v', '--version', 'version') { version }
+
+        options.separator <<~COMMANDS
+          commands:
+            crawl [url]
+        COMMANDS
       end
     end
   end
