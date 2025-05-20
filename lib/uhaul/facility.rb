@@ -5,8 +5,6 @@ module UHaul
   #
   # e.g. https://www.uhaul.com/Locations/Self-Storage-near-Inglewood-CA-90301/712030/
   class Facility
-    class ParseError < StandardError; end
-
     PRICES_SELECTOR = '#roomTypes > ul:not([id*="VehicleStorage"]) > li'
 
     SITEMAP_URLS = %w[
