@@ -3,8 +3,6 @@
 module UHaul
   # The dimensions (width + depth + sqft) of a price.
   class Dimensions
-    class ParseError < StandardError; end
-
     DIMENSIONS_REGEX = /(?<width>[\d\.]+)'\s*x\s*(?<depth>[\d\.]+)'\s*x\s*(?<height>[\d\.]+)'/
 
     # @attribute [rw] depth

@@ -33,7 +33,7 @@ module UHaul
       @stdout.puts(facility.text)
       facility.prices.each { |price| @stdout.puts(price.text) }
       @stdout.puts
-    rescue FetchError => e
+    rescue UHaul::Error => e
       @stderr.puts("url=#{url} error=#{e.message}")
     end
   end
