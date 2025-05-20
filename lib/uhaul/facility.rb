@@ -126,10 +126,10 @@ module UHaul
     def self.parse(url:, document:)
       data = parse_ld_json_script(document:)
 
-      id = data['@id'].match(%r{(?<id>\d+)/#schema$})[:id]
+      id = data['@id'].match(%r{(?<id>\d+)/#})[:id]
       name = data['name']
 
-      geocode = Geocode.parse(data: data['geo'])
+      geocode = Geocode.parse(data: data['geo'] || data['areaServed']['geoMidpoint'])
       address = Address.parse(data: data['address'])
       prices = document.css(PRICES_SELECTOR).map { |element| Price.parse(element:) }.compact
 
@@ -143,7 +143,7 @@ module UHaul
     # @return [Hash]
     def self.parse_ld_json_script(document:)
       parse_ld_json_scripts(document:).find do |data|
-        data['@type'] == 'SelfStorage'
+        %w[SelfStorage LocalBusiness].include?(data['@type'])
       end || raise(ParseError, 'missing ld+json')
     end
 
