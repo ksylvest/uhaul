@@ -124,11 +124,11 @@ module UHaul
     def self.parse(url:, document:)
       data = parse_ld_json_script(document:)
 
-      id = data['@id'].match(%r{(?<id>\d+)/#})[:id]
-      name = data['name']
+      id = parse_id!(document:)
+      name = parse_name!(document:)
 
-      geocode = Geocode.parse(data: data['geo'] || data['areaServed']['geoMidpoint'])
-      address = Address.parse(data: data['address'])
+      geocode = Geocode.parse(data:, document:)
+      address = Address.parse(data:, document:)
       prices = document.css(PRICES_SELECTOR).map { |element| Price.parse(element:) }.compact
 
       new(id:, url:, name:, address:, geocode:, prices:)
@@ -142,7 +142,7 @@ module UHaul
     def self.parse_ld_json_script(document:)
       parse_ld_json_scripts(document:).find do |data|
         %w[SelfStorage LocalBusiness].include?(data['@type'])
-      end || raise(ParseError, 'missing ld+json')
+      end
     end
 
     # @param document [Nokogiri::HTML::Document]
@@ -152,6 +152,29 @@ module UHaul
       elements = document.xpath('//script[@type="application/ld+json"]')
 
       elements.map { |element| element.text.empty? ? {} : JSON.parse(element.text) }
+    end
+
+    # @param document [Nokogiri::HTML::Document]
+    #
+    # @raise [ParseError]
+    #
+    # @return [String]
+    def self.parse_id!(document:)
+      element = document.at_xpath('//link[@rel="canonical"]') || raise(ParseError, 'missing <link rel="canonical">')
+
+      href = element['href']
+      href.match(%r{(?<id>\d+)/$})[:id]
+    end
+
+    # @param document [Nokogiri::HTML::Document]
+    #
+    # @raise [ParseError]
+    #
+    # @return [String]
+    def self.parse_name!(document:)
+      element = document.at_xpath('//title') || raise(ParseError, 'missing <title>...</title>')
+
+      element.text.match(/\|\s*(?<name>.*)\s*$/)[:name].strip
     end
 
     # @param id [String]
