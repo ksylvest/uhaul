@@ -14,16 +14,6 @@ module UHaul
     #   @return [Float]
     attr_accessor :longitude
 
-    # @param data [Hash]
-    #
-    # @return [Geocode]
-    def self.parse(data:)
-      latitude = Float(data['latitude'])
-      longitude = Float(data['longitude'])
-
-      new(latitude:, longitude:)
-    end
-
     # @param latitude [Float]
     # @param longitude [Float]
     def initialize(latitude:, longitude:)
@@ -43,6 +33,39 @@ module UHaul
     # @return [String]
     def text
       "#{@latitude},#{@longitude}"
+    end
+
+    # @param document [String]
+    # @param data [Hash] optional
+    #
+    # @return [Address]
+    def self.parse(document:, data:)
+      parse_by_data(data:) || parse_by_document(document:)
+    end
+
+    # @param data [Hash]
+    #
+    # @return [Address]
+    def self.parse_by_data(data:)
+      coordinates = data&.dig('areaServed', 'geoMidpoint')
+      return unless coordinates
+
+      new(
+        latitude: Float(coordinates['latitude']),
+        longitude: Float(coordinates['longitude'])
+      )
+    end
+
+    # @param document [Nokogiri::HTML::Document]
+    #
+    # @return [Address]
+    def self.parse_by_document(document:)
+      document.text.match(/latitude:\s*(?<latitude>[\+\-\d\.]+),\s*longitude:\s*(?<longitude>[\+\-\d\.]+)/) do |match|
+        new(
+          latitude: Float(match[:latitude]),
+          longitude: Float(match[:longitude])
+        )
+      end
     end
   end
 end
